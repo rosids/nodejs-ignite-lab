@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { SendNotification } from '@application/use-cases/send-notification';
 import { CancelNotification } from '@application/use-cases/cancel-notification';
 import { CountRecipientNotifications } from '@application/use-cases/count-recipient-notifications';
+import { GetRecipientNotifications } from '@application/use-cases/get-recipient-notificatios';
 import { CreateNotificationBody } from '../dtos/create-notification-body';
 import { NotificationViewModel } from '../view-models/notification-view-model';
 
@@ -11,6 +12,7 @@ export class NotificationsController {
     private sendNotification: SendNotification,
     private cancelNotification: CancelNotification,
     private countRecipientNotifications: CountRecipientNotifications,
+    private getRecipientNotifications: GetRecipientNotifications,
   ) {}
 
   @Patch(':id/cancel')
@@ -28,6 +30,17 @@ export class NotificationsController {
 
     return {
       count,
+    };
+  }
+
+  @Get('from/:recipientId')
+  async getFromRecipient(@Param('recipientId') recipientId: string) {
+    const { notifications } = await this.getRecipientNotifications.execute({
+      recipientId,
+    });
+
+    return {
+      notifications: notifications.map(NotificationViewModel.toHTTP),
     };
   }
 
