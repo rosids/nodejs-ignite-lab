@@ -5,6 +5,7 @@ import { NotificationsController } from './controllers/notifications.controller'
 import { CancelNotification } from '@application/use-cases/cancel-notification';
 import { CountRecipientNotifications } from '@application/use-cases/count-recipient-notifications';
 import { GetRecipientNotifications } from '@application/use-cases/get-recipient-notificatios';
+import { ReadNotification } from '@application/use-cases/read-notification';
 
 @Module({
   // por usar o SendNotification no providers e a classe do SendNotification necessitar do NotificationsRepository poderia utilizar a mesma estratégia do DatabaseModule usando o provide ou simplesmente adicionar o DatabaseModule no imports
@@ -16,6 +17,7 @@ import { GetRecipientNotifications } from '@application/use-cases/get-recipient-
     CancelNotification,
     CountRecipientNotifications,
     GetRecipientNotifications,
+    ReadNotification,
   ],
 })
 export class HttpModule {}

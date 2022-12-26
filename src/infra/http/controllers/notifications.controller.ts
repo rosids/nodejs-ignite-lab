@@ -3,6 +3,7 @@ import { SendNotification } from '@application/use-cases/send-notification';
 import { CancelNotification } from '@application/use-cases/cancel-notification';
 import { CountRecipientNotifications } from '@application/use-cases/count-recipient-notifications';
 import { GetRecipientNotifications } from '@application/use-cases/get-recipient-notificatios';
+import { ReadNotification } from '@application/use-cases/read-notification';
 import { CreateNotificationBody } from '../dtos/create-notification-body';
 import { NotificationViewModel } from '../view-models/notification-view-model';
 
@@ -13,6 +14,7 @@ export class NotificationsController {
     private cancelNotification: CancelNotification,
     private countRecipientNotifications: CountRecipientNotifications,
     private getRecipientNotifications: GetRecipientNotifications,
+    private readNotification: ReadNotification,
   ) {}
 
   @Patch(':id/cancel')
@@ -42,6 +44,13 @@ export class NotificationsController {
     return {
       notifications: notifications.map(NotificationViewModel.toHTTP),
     };
+  }
+
+  @Patch(':id/read')
+  async read(@Param('id') id: string) {
+    await this.readNotification.execute({
+      notificationId: id,
+    });
   }
 
   @Post()
